@@ -19,3 +19,10 @@ func InnerProduct(w, x []float64) (f float64) {
 
 	return
 }
+
+func Multiplication(x float64, y []float64) []float64 {
+	for i, tmp := range y {
+		y[i] = x * tmp
+	}
+	return y
+}
