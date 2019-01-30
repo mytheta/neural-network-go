@@ -17,7 +17,7 @@ func OutPutLayer2(x []float64) (h float64) {
 	return
 }
 
-func ErrorFunc(g, b float64) float64 {
+func OutPutErrorFunc(g, b float64) float64 {
 	return (g - b) * g * (1 - g)
 }
 
