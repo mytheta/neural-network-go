@@ -16,19 +16,8 @@ func InnerProduct(w, x []float64) (f float64) {
 	}
 
 	for i, _ := range w {
-		w[i] = w[i]
-		x[i] = x[i]
-		if math.IsNaN(w[i]) {
-			panic("エラーですよ")
-		}
 		n := w[i] * x[i]
-		if math.IsNaN(n) {
-			panic("エラーですよ")
-		}
 		f += n
-		if math.IsNaN(f) {
-			panic("エラーですよ")
-		}
 	}
 
 	return
@@ -36,7 +25,6 @@ func InnerProduct(w, x []float64) (f float64) {
 
 func Multiplication(x float64, y []float64) (f float64) {
 	for _, tmp := range y {
-		tmp = Round(tmp, 5)
 		n := x * tmp
 		f += n
 	}
