@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	wm1 = []float64{0.0, 1.09, 0.1}
-	wm2 = []float64{1.0, 1.5, 1.87}
-	wm3 = []float64{3.6, 2.03, 1.01}
+	wm1 = []float64{1.4, -2.09, 4.1}
+	wm2 = []float64{1.0, 1.5, -0.87}
+	wm3 = []float64{-0.6, 1.23, 1.51}
 )
 
 func MiddleLayer1(x []float64) (y float64) {
@@ -21,13 +21,13 @@ func MiddleLayer1(x []float64) (y float64) {
 
 func MiddleLayer2(x []float64) (y float64) {
 	h := function.InnerProduct(wm2, x)
-	y = function.Round(function.Sigmoid(h), 8)
+	y = function.Sigmoid(h)
 	return
 }
 
 func MiddleLayer3(x []float64) (y float64) {
 	h := function.InnerProduct(wm3, x)
-	y = function.Round(function.Sigmoid(h), 8)
+	y = function.Sigmoid(h)
 
 	return
 }
@@ -35,9 +35,8 @@ func MiddleLayer3(x []float64) (y float64) {
 func MiddleErrorFunc(e []float64, g float64) float64 {
 	var h1, h2 float64
 	for _, epsilon := range e {
-		epsilon = function.Round(epsilon, 10)
+
 		h1 += function.Multiplication(epsilon, wo1)
-		h2 += function.Multiplication(epsilon, wo2)
 	}
 	r := (h1 + h2) * g
 	if math.IsNaN(r) {
@@ -80,6 +79,5 @@ func PrintW() {
 	fmt.Println(wm2)
 	fmt.Println(wm3)
 	fmt.Println(wo1)
-	fmt.Println(wo2)
 
 }
