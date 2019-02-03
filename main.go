@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"image/color"
-	"math"
 	"math/rand"
 	"time"
 
@@ -17,7 +16,7 @@ import (
 )
 
 const (
-	min, max, p = 0.0, 3.9, 0.07
+	min, max, p = 0.0, 3.9, 0.0001
 )
 
 func main() {
@@ -29,71 +28,72 @@ func main() {
 	dots[0].X = x1
 	dots[0].Y = y1
 
-	//クラス2
-	x2, y2 := 20.0, 20.0
+	//クラス1
+	x2, y2 := 1.0, 1.0
 	dots[1].X = x2
 	dots[1].Y = y2
 
-	//クラス3
-	x3, y3 := 0.0, 20.0
+	//クラス2
+	x3, y3 := 0.0, 1.0
 	dots[2].X = x3
 	dots[2].Y = y3
 
-	//クラス4
-	x4, y4 := 20.0, 0.0
+	//クラス2
+	x4, y4 := 1.0, 0.0
 	dots[3].X = x4
 	dots[3].Y = y4
 
+	//クラス
 	class := [][]float64{{1.0, x1, y1}, {1.0, x2, y2}, {1.0, x3, y3}, {1.0, x4, y4}}
 
 	//教師データ作成
 	b := []float64{1, 1, 0, 0}
 
 	var errGraph []float64
-	var beforeError float64
-	var afterError float64
+	var theError float64
 	var count int
 
 	for {
-		//0~199をランダムに生成
+		//0~3をランダムに生成
 		rand := randomCount(min, max)
 
-		beforeError = afterError
-
-		errGraph = append(errGraph, beforeError)
-
+		//入力層
 		x := class[int(rand)]
 		in1 := layer.InputLayer1(x[0])
 		in2 := layer.InputLayer2(x[1])
 		in3 := layer.InputLayer3(x[2])
-
 		in := []float64{in1, in2, in3}
 
+		//中間層
 		mid1 := layer.MiddleLayer1(in)
 		mid2 := layer.MiddleLayer2(in)
 		mid3 := layer.MiddleLayer3(in)
 		mid := []float64{mid1, mid2, mid3}
 
-		out1 := layer.OutPutLayer1(mid)
+		//出力層
+		out := layer.OutPutLayer1(mid)
 
-		e21 := layer.OutPutErrorFunc(out1, b[int(rand)])
-		e2 := []float64{e21}
-		layer.OutWeightCalc1(p, e21, out1)
+		//出力層の誤差
+		e2 := layer.OutPutErrorFunc(out, b[int(rand)])
+		layer.OutWeightCalc1(p, e2, out)
 
-		afterError = e21 * e21
+		//誤差の二乗
+		theError = e2 * e2
 
+		//中間層のユニットのそれぞれの誤差
 		e11 := layer.MiddleErrorFunc(e2, mid1)
 		e12 := layer.MiddleErrorFunc(e2, mid2)
 		e13 := layer.MiddleErrorFunc(e2, mid3)
-		if math.IsNaN(e11) {
-			panic("エラーですよ")
-		}
 
+		//中間層の重みの更新
 		layer.MiddleWeightCalc1(p, e11, mid1)
 		layer.MiddleWeightCalc2(p, e12, mid2)
 		layer.MiddleWeightCalc3(p, e13, mid3)
 
-		//前回と今回の誤差の二乗が閾値以下だったら終了
+		//誤差関数
+		errGraph = append(errGraph, theError)
+
+		//n回学習
 		if count == 500 {
 			break
 		}
@@ -113,7 +113,7 @@ func main() {
 
 		out1 := layer.OutPutLayer1(mid)
 
-		fmt.Printf("%dのclass1の確率:%f\n", i, out1)
+		fmt.Printf("%dのclass1の出力:%f\n", i, out1)
 
 	}
 
@@ -144,9 +144,9 @@ func main() {
 
 	// Axis ranges
 	p.X.Min = 0
-	p.X.Max = 20
+	p.X.Max = 3
 	p.Y.Min = 0
-	p.Y.Max = 20
+	p.Y.Max = 3
 
 	// Save the plot to a PNG file.
 	if err := p.Save(6*vg.Inch, 6*vg.Inch, "report.png"); err != nil {
