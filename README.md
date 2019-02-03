@@ -2,8 +2,8 @@
 golangでニューラルネットワーク
 
 ## やりたいこと
-XOR問題をニューラルネットワークで解く．
-入力層3つ，中間層3つ，出力層1つにし，class1なら1,class2なら0の教師ラベル設定する．
+XOR問題をニューラルネットワークで解く．  
+入力層3つ，中間層3つ，出力層1つにし，class1なら1,class2なら0の教師ラベルを設定する．  
 ![sample](https://github.com/mytheta/neural-network-go/blob/master/neural.png)
 
 
@@ -22,3 +22,13 @@ class2=(1.0),(0,1)
 
 ## 誤差関数
 ![sample](https://github.com/mytheta/neural-network-go/blob/master/points.png)
+
+## 結果
+```
+(0,0)の出力:0.906133
+(1,1)の出力:0.806983
+(1,0)の出力:0.824240
+(0,1)の出力:0.812513
+```
+理想は，class1なら0.999くらい，class2なら0.001くらい．．  
+？？？  
