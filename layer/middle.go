@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	wm1 = []float64{1.4, -2.09, 4.1}
-	wm2 = []float64{1.0, 1.5, -0.87}
-	wm3 = []float64{-0.6, 1.23, 1.51}
+	wm1 = []float64{1.14, -1.09, 1.1}
+	wm2 = []float64{4.5, 4.5, -5.87}
+	wm3 = []float64{-3.6, 3.23, 1.51}
 )
 
 func MiddleLayer1(x []float64) (y float64) {
@@ -32,20 +32,11 @@ func MiddleLayer3(x []float64) (y float64) {
 	return
 }
 
-func MiddleErrorFunc(e []float64, g float64) float64 {
-	var h1, h2 float64
-	for _, epsilon := range e {
-
-		h1 += function.Multiplication(epsilon, wo1)
-	}
-	r := (h1 + h2) * g
-	if math.IsNaN(r) {
-		panic("エラーですよ")
-	}
+//中間層の誤差関数
+func MiddleErrorFunc(e, g float64) float64 {
+	sigma := function.Multiplication(e, wo1)
+	r := sigma * g
 	d := 1 - g
-	if math.IsNaN(d) {
-		panic("エラーですよ")
-	}
 	r = r * d
 	if math.IsNaN(r) {
 		panic("エラーですよ")
