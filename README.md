@@ -2,8 +2,8 @@
 golangでニューラルネットワーク
 
 ## やりたいこと
-XOR問題をニューラルネットワークで解く．
-入力層3つ，中間層3つ，出力層1つにし，class1なら1,class2なら0の教師ラベル設定する．
+XOR問題をニューラルネットワークで解く．  
+入力層3つ，中間層3つ，出力層1つにし，class1なら1,class2なら0の教師ラベルを設定する．  
 ![sample](https://github.com/mytheta/neural-network-go/blob/master/neural.png)
 
 
