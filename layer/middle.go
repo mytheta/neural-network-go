@@ -8,9 +8,9 @@ import (
 )
 
 var (
-	wm1 = []float64{1.14, -1.09, 1.1}
-	wm2 = []float64{4.5, 4.5, -5.87}
-	wm3 = []float64{-3.6, 3.23, 1.51}
+	wm1 = []float64{1.14, 1.09, 1.1}
+	wm2 = []float64{1.1, 1.1, 1.87}
+	wm3 = []float64{0.6, 1.23, 0.51}
 )
 
 func MiddleLayer1(x []float64) (y float64) {

@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	min, max, p = 0.0, 3.9, 0.0001
+	min, max, p = 0.0, 3.9, 0.07
 )
 
 func main() {
@@ -65,10 +65,10 @@ func main() {
 		in := []float64{in1, in2, in3}
 
 		//中間層
-		mid1 := layer.MiddleLayer1(in)
+		//mid1 := layer.MiddleLayer1(in)
 		mid2 := layer.MiddleLayer2(in)
 		mid3 := layer.MiddleLayer3(in)
-		mid := []float64{mid1, mid2, mid3}
+		mid := []float64{1.0, mid2, mid3}
 
 		//出力層
 		out := layer.OutPutLayer1(mid)
@@ -77,16 +77,18 @@ func main() {
 		e2 := layer.OutPutErrorFunc(out, b[int(rand)])
 		layer.OutWeightCalc1(p, e2, out)
 
+		fmt.Println(e2)
+
 		//誤差の二乗
 		theError = e2 * e2
 
 		//中間層のユニットのそれぞれの誤差
-		e11 := layer.MiddleErrorFunc(e2, mid1)
+		//e11 := layer.MiddleErrorFunc(e2, 1.0)
 		e12 := layer.MiddleErrorFunc(e2, mid2)
 		e13 := layer.MiddleErrorFunc(e2, mid3)
 
 		//中間層の重みの更新
-		layer.MiddleWeightCalc1(p, e11, mid1)
+		//layer.MiddleWeightCalc1(p, e11, mid1)
 		layer.MiddleWeightCalc2(p, e12, mid2)
 		layer.MiddleWeightCalc3(p, e13, mid3)
 
@@ -94,7 +96,7 @@ func main() {
 		errGraph = append(errGraph, theError)
 
 		//n回学習
-		if count == 500 {
+		if count == 100 {
 			break
 		}
 		count++
@@ -171,6 +173,12 @@ func main() {
 	p2.Title.Text = "Plotutil example"
 	p2.X.Label.Text = "X"
 	p2.Y.Label.Text = "Y"
+
+	// Axis ranges
+	p2.X.Min = 0
+	p2.X.Max = 1
+	p2.Y.Min = 0
+	p2.Y.Max = 1
 
 	p2.Legend.Add("line", l)
 	// Save the plot to a PNG file.
